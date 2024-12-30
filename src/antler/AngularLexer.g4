@@ -4,16 +4,32 @@ lexer grammar AngularLexer;
 
 MultiLineComment  : '/*' .*? '*/'             -> channel(HIDDEN);
 SingleLineComment : '//' ~[\r\n\u2028\u2029]* -> channel(HIDDEN);
-WS: [ \t\r\n]+ -> skip;
 At                         : '@';
 BACKTICK                   : '`';
+Class                      :'class';
+Export  : 'export';
 
-Component                  : 'Component' ;
+Component               : 'Component' ;
 Selector                   : 'selector';
 Standalone                 : 'standalone';
 Imports                    : 'imports';
 Template                   : 'template';
 Styles                     : 'styles';
+Margin                     : 'margin';
+Margin_top                 : 'margin_top';
+Padding                    : 'padding';
+Display                    :'display';
+Color                      : 'color';
+Border_color               : 'border-color';
+Box_shadow                 : 'box-shadow';
+Flex                       : 'flex';
+Background_color           : 'background-color';
+Width                      : 'width';
+Line_height                : 'line-height';
+Flex_direction             : 'flex-direction';
+Flex_wrap                  : 'flex-wrap';
+Gap                        : 'gap';
+Justify_content            : 'justify-content';
 OpenBracket                : '[';
 CloseBracket               : ']';
 OpenParen                  : '(';
@@ -103,17 +119,18 @@ From       : 'from';
 Of         : 'of';
 NullLiteral: 'null';
 BooleanLiteral: 'true' | 'false';
+
+
 StringLiteral:
     ('"' DoubleStringCharacter* '"' | '\'' SingleStringCharacter* '\'')
 ;
 /// Future Reserved Words
 Src:'src';
-Class   : 'class';
 Enum    : 'enum';
+Alt:'alt';
 Extends : 'extends';
 Super   : 'super';
 Const   : 'const';
-Export  : 'export';
 Import  : 'import';
 Implements   : 'implements' ;
 StrictLet    : 'let'        ;
@@ -127,18 +144,18 @@ Map:'map';
 UseRef : 'useRef' ;
 UseState : 'useState' ;
 UseEffect: 'useEffect' ;
-    Ws:  (' '|'\t'|'\r'? '\n') ->skip
-    ;
+
 DecimalLiteral:
     DecimalIntegerLiteral '.' [0-9] [0-9_]* ExponentPart?
     | '.' [0-9] [0-9_]* ExponentPart?
     | DecimalIntegerLiteral ExponentPart?
 ;
 
-Identifier: IdentifierStart  IdentifierPart*;
+Identifier : [a-zA-Z_] [a-zA-Z0-9_-]* ;
 TagName: TagNameStartChar TagNameChar*;
 ID: [a-zA-Z]+;
 Number : [0-9]+;
+WS: [ \t\r\n]+ -> skip;
 
 fragment ESC: '\\' (["\\/bfnrt] | UNICODE_ESCAPE);
 fragment UNICODE_ESCAPE: 'u' HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT ;

@@ -1,5 +1,6 @@
 // Generated from C:/Users/hazem/OneDrive/Desktop/4/compiler_test/CompilerProject/src/antler/AngularParser.g4 by ANTLR 4.13.2
 package antler;
+import AST.Export;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
@@ -11,7 +12,7 @@ import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
  * operations with no return type.
  */
 @SuppressWarnings("CheckReturnValue")
-public class AngularParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements AngularParserVisitor<T> {
+public abstract class AngularParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements AngularParserVisitor<T> {
 	/**
 	 * {@inheritDoc}
 	 *
@@ -123,6 +124,20 @@ public class AngularParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> imp
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitSingleExpressionCss(AngularParser.SingleExpressionCssContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitAttributeCss(AngularParser.AttributeCssContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitFunctionCall(AngularParser.FunctionCallContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -194,6 +209,9 @@ public class AngularParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> imp
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitStylesDeclaration(AngularParser.StylesDeclarationContext ctx) { return visitChildren(ctx); }
+
+	public abstract Export visitExportstatment(AngularParser.ExportStatementContext ctx);
+
 	/**
 	 * {@inheritDoc}
 	 *
@@ -264,6 +282,13 @@ public class AngularParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> imp
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitArrayLiteral(AngularParser.ArrayLiteralContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitArrayCss(AngularParser.ArrayCssContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

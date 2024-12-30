@@ -197,6 +197,30 @@ public class AngularParserBaseListener implements AngularParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterSingleExpressionCss(AngularParser.SingleExpressionCssContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSingleExpressionCss(AngularParser.SingleExpressionCssContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAttributeCss(AngularParser.AttributeCssContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAttributeCss(AngularParser.AttributeCssContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterFunctionCall(AngularParser.FunctionCallContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -444,6 +468,18 @@ public class AngularParserBaseListener implements AngularParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitArrayLiteral(AngularParser.ArrayLiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArrayCss(AngularParser.ArrayCssContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArrayCss(AngularParser.ArrayCssContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

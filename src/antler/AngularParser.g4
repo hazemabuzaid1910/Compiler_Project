@@ -3,7 +3,6 @@ parser grammar AngularParser;
 options {
   tokenVocab=AngularLexer;
 }
-
 program : importStatement statment* ;
 
 eos : SemiColon? ;
@@ -15,7 +14,8 @@ importFromBlock
     ;
 
 moduleItems
-    : (Identifier Comma)? '{' (Identifier ','?)* '}'
+    : '{' (Identifier (Comma Identifier)*)? '}'
+    | '{' (Component )? '}'
     ;
 
 
@@ -23,7 +23,8 @@ statment
     : variableStatement
     | functionDeclaration
     | componentDeclaration
-
+    | classDeclaration
+    | expressionStatement
     ;
 
 expressionStatement : singleExpression (',' singleExpression)* eos ;
@@ -31,7 +32,7 @@ expressionStatement : singleExpression (',' singleExpression)* eos ;
 returnStatement : Return (singleExpression (',' singleExpression)*)? eos ;
 
 functionDeclaration
-    : Export? Function_ Identifier '(' singleExpression* (',' singleExpression)* ')' '{' statment* '}' exportStatement?
+    : Export? Identifier '(' singleExpression* (',' singleExpression)* ')' '{' statment* '}' exportStatement?
     ;
 
 exportStatement
@@ -39,7 +40,7 @@ exportStatement
     ;
 
 variableStatement
-    : varModifier variableDeclaration (',' variableDeclaration)* eos
+    : varModifier ? variableDeclaration (',' variableDeclaration)* eos
     ;
 
 varModifier
@@ -54,30 +55,61 @@ variableDeclaration
 
 assignable : arrayLiteral | Identifier | ObjectLiteral ;
 
-singleExpression
-    : literal
-    | arrayLiteral
-    | objectLiteral
-    | functionCall
-    | directive
-    | ifStatement
-    | returnStatement
-    | htmlElements
-    | Identifier
-    | singleExpression Dot singleExpression
-    | singleExpression Plus singleExpression
-    | singleExpression Minus singleExpression
-    | OpenParen singleExpression (Comma singleExpression)* CloseParen
-    ;
+singleExpression:
+        literal
+        | arrayLiteral
+        | objectLiteral
+        |mustacheExpression
+        |returnStatement
+        | singleExpression Dot singleExpression
+        | singleExpression Multiply singleExpression
+        | singleExpression Divide singleExpression
+        | singleExpression Plus singleExpression
+        | singleExpression Minus singleExpression
+        | singleExpression Colon singleExpression
+        | singleExpression And singleExpression
+        | singleExpression QuestionMark singleExpression Colon singleExpression
+        | singleExpression Assign singleExpression
+        | singleExpression singleExpression
+        | htmlElements
+        | OpenParen singleExpression (Comma singleExpression)*  CloseParen
+        | Identifier
+        | Map
+        | singleExpression PlusPlus
+        | OpenBrace singleExpression (OpenParen CloseParen)?CloseBrace
+        | singleExpression MinusMinus
+        | This
+         ;
 
+singleExpressionCss:
+     Dot Identifier '{' (attributeCss ':' (DecimalLiteral ? Identifier ? StringLiteral?) ';')* '}'
+;
+attributeCss:
+ Margin
+|Margin_top
+|Padding
+|Color
+|Border_color
+|Box_shadow
+|Flex
+|Background_color
+|Width
+|Line_height
+|Flex_direction
+|Flex_wrap
+|Gap
+|Justify_content
+|Display
+;
 functionCall
     : Identifier OpenParen (singleExpression (Comma singleExpression)*)? CloseParen
     ;
 
 directive
-    : '*ngIf' '=' singleExpression
-    | '*ngFor' '=' singleExpression
+    : '*ngIf' Assign singleExpression
+    | '*ngFor' Assign singleExpression
     ;
+
 
 ifStatement
     : If OpenParen singleExpression CloseParen statementBlock (Else statementBlock)?
@@ -114,19 +146,17 @@ templateDeclaration
     ;
 
 stylesDeclaration
-    : Styles  Colon arrayLiteral
+    : Styles  Colon arrayCss
     ;
 
 
 classDeclaration
-    : Export? Class Identifier '{' classBody* '}'
+    : Export? Class Identifier  classBody
     ;
 
 
-
 classBody
-    : variableStatement
-    | functionDeclaration
+    :'{' (singleExpression|statment )* '}'
     ;
 
 templateStatement
@@ -136,24 +166,31 @@ templateStatement
 
 htmlElements : htmlElement+ ;
 htmlElement
-    : '<' Identifier htmlAttribute* '>' htmlContent? CLOSE_TAG Identifier '>'
-    | '<' Identifier htmlAttribute* '/' '>'
+    : '<' Identifier (WS? htmlAttribute)* WS? '>' htmlContent? CLOSE_TAG Identifier '>'
+    | '<' Identifier (WS? htmlAttribute)* WS? '/' '>'
     ;
+
 htmlContent : (htmlElement | mustacheExpression | singleExpression)* ;
 
 htmlAttribute
-    : Identifier (Assign htmlAttributeValue)?
+    : Identifier (Assign htmlAttributeValue)?                  // Standard attributes
+    | '[' Class Dot Identifier ']' (Assign htmlAttributeValue)?
+    | '(' Identifier ')' (Assign htmlAttributeValue)?          // Angular event bindings
+    | directive (Assign htmlAttributeValue)?
+    | Class (Assign htmlAttributeValue)?
+    | Alt (Assign htmlAttributeValue)?
+    | '[' Src ']' (Assign htmlAttributeValue)?
     ;
 
 mustacheExpression : OPEN_MUSTACHE singleExpression CLOSE_MUSTACHE ;
 
-htmlAttributeValue
-    : StringLiteral
-    | mustacheExpression
-    ;
+  htmlAttributeValue : StringLiteral
+                     | '{'singleExpression (','  singleExpression)*'}' ;
 
-arrayLiteral : '[' (singleExpression (',' singleExpression)*)? ']' ;
-
+arrayLiteral : '['  (singleExpression (',' singleExpression)*)?  ']'
+             ;
+arrayCss : '['  '`' (singleExpressionCss)*? '`' ']'
+             ;
 objectLiteral
     : '{' (propertyAssignment (',' propertyAssignment)*)? '}'
     ;
