@@ -83,25 +83,9 @@ singleExpression:
          ;
 
 singleExpressionCss:
-     Dot Identifier objectLiteral ';'
+     Dot Identifier objectLiteral
 ;
-attributeCss:
- Margin
-|Margin_top
-|Padding
-|Color
-|Border_color
-|Box_shadow
-|Flex
-|Background_color
-|Width
-|Line_height
-|Flex_direction
-|Flex_wrap
-|Gap
-|Justify_content
-|Display
-;
+
 functionCall
     : Identifier OpenParen (singleExpression (Comma singleExpression)*)? CloseParen
     ;
@@ -119,8 +103,6 @@ ifStatement
 statementBlock
     : '{' statment* '}'
     ;
-
-
 
 componentDeclaration
     : At Component '(' componentAttributes ')'
@@ -203,11 +185,11 @@ arrayLiteral : '['  (singleExpression (',' singleExpression)*)?  ']'
 arrayCss : '['  '`' (singleExpressionCss)*? '`' ']'
              ;
 objectLiteral
-    : '{' (propertyAssignment (',' propertyAssignment)*)? '}'
+    : '{' (propertyAssignment (',' propertyAssignment)* (';' propertyAssignment)* )?  '}'
     ;
 
 propertyAssignment
-    : singleExpression ':' singleExpression
+    : singleExpression ':' singleExpression ';'?
     ;
 
 literal

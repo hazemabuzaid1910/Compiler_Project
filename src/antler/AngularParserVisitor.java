@@ -107,12 +107,6 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSingleExpressionCss(AngularParser.SingleExpressionCssContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AngularParser#attributeCss}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAttributeCss(AngularParser.AttributeCssContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link AngularParser#functionCall}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
