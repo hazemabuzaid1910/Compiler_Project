@@ -168,16 +168,6 @@ public interface AngularParserListener extends ParseTreeListener {
 	 */
 	void exitSingleExpressionCss(AngularParser.SingleExpressionCssContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AngularParser#attributeCss}.
-	 * @param ctx the parse tree
-	 */
-	void enterAttributeCss(AngularParser.AttributeCssContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link AngularParser#attributeCss}.
-	 * @param ctx the parse tree
-	 */
-	void exitAttributeCss(AngularParser.AttributeCssContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link AngularParser#functionCall}.
 	 * @param ctx the parse tree
 	 */

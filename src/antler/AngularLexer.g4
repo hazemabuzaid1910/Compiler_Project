@@ -134,7 +134,7 @@ DecimalLiteral:
     | DecimalIntegerLiteral ExponentPart?
 ;
 
-Identifier : [a-zA-Z_] [a-zA-Z0-9_-]* ;
+Identifier : [a-zA-Z_] [a-zA-Z0-9_-]* |[0-9_a-zA-Z] [a-zA-Z_]*;
 TagName: TagNameStartChar TagNameChar*;
 ID: [a-zA-Z]+;
 Number : [0-9]+;

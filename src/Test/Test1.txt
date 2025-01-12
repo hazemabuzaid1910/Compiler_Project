@@ -28,6 +28,19 @@ import  '@angular/core';
                 </div>
               </div>
             `,
+            styles: [
+
+ .product{
+  color:red;
+    width: 10;
+
+      },
+       .product{
+        color:red;
+          width: 10;
+
+            }
+              ],
 })
 
 
