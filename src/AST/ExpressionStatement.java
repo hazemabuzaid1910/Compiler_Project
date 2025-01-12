@@ -23,9 +23,6 @@ public class ExpressionStatement  {
             }
             sb.append(expressions.get(i));
         }
-
-
-
         return sb.toString();
     }
 }

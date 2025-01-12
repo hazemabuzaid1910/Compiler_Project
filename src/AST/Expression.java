@@ -17,8 +17,24 @@ public class  Expression {
     Expression left ;
     Expression right ;
     Expression cond ;
+    MustachExpression mustache;
+    StyleContent styleContent;
 
+    public StyleContent getStyleContent() {
+        return styleContent;
+    }
 
+    public void setStyleContent(StyleContent styleContent) {
+        this.styleContent = styleContent;
+    }
+
+    public MustachExpression getMustache() {
+        return mustache;
+    }
+
+    public void setMustache(MustachExpression mustache) {
+        this.mustache = mustache;
+    }
 
     public void setReturnStatement(ReturnStatement returnStatement) {
         this.returnStatement = returnStatement;
@@ -207,7 +223,14 @@ public class  Expression {
         if (ifStatement != null) {
             sb.append(ifStatement);
         }
+        if (mustache != null) {
 
+            sb.append(mustache);
+        }
+        if (styleContent != null) {
+
+            sb.append(styleContent);
+        }
         return sb.toString();
     }
 }

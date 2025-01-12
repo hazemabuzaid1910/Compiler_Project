@@ -2,8 +2,10 @@ import { Component } from '@angular/core';
 import  '@angular/core';
 
 @Component({
-
-template:`<div class="container">
+  standalone: true,
+  selector: 'app-root',
+    imports: [CommonModule],
+  template:`<div class="container">
                 <div class="product-list">
                   <div
                     class="product"
@@ -11,7 +13,7 @@ template:`<div class="container">
                     [class.selected]="product === selectedProduct"
                     (click)="selectProduct(product)"
                   >
-                    <h4>{{ product.name }}</h4>
+                    <h4>{{hazem.product}}</h4>
                     <img [src]="product.image" alt="Product Image" class="product-image" />
                   </div>
                 </div>

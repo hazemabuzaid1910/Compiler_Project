@@ -10,6 +10,15 @@ public class HtmlContentNode  {
     public List<Expression> getExpContent() {
         return expContent;
     }
+    MustachExpression mustachExpression;
+
+    public MustachExpression getMustachExpression() {
+        return mustachExpression;
+    }
+
+    public void setMustachExpression(MustachExpression mustachExpression) {
+        this.mustachExpression = mustachExpression;
+    }
 
     public void setExpContent(List<Expression> expContent) {
         this.expContent = expContent;

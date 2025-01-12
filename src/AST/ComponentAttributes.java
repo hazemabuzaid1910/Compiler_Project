@@ -1,69 +1,34 @@
 package AST;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ComponentAttributes {
 
+    List<ComponentAttribute> componentAttribute =new ArrayList<ComponentAttribute>();
 
-        Selector selector;
-        Standalone standalone;
-        Imports imports;
-        Template template;
-        Styles styles;
-
-        public Selector getSelector() {
-            return selector;
-        }
-
-        public void setSelector(Selector selector) {
-            this.selector = selector;
-        }
-
-        public Standalone getStandalone() {
-            return standalone;
-        }
-
-        public void setStandalone(Standalone standalone) {
-            this.standalone = standalone;
-        }
-
-        public Imports getImports() {
-            return imports;
-        }
-
-        public void setImports(Imports imports) {
-            this.imports = imports;
-        }
-
-        public Template getTemplate() {
-            return template;
-        }
-
-        public void setTemplate(Template template) {
-            this.template = template;
-        }
-
-        public Styles getStyles() {
-            return styles;
-        }
-
-        public void setStyles(Styles styles) {
-            this.styles = styles;
-        }
-
-        @Override
-        public String toString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("ComponentAttributes {");
-            if (selector != null)
-                sb.append("selectorDeclaration ={").append(selector);
-            if (imports != null)
-                sb.append("importsDeclaration= {").append(imports);
-            if (standalone != null)
-                sb.append(standalone);
-            if (template != null)
-                sb.append("templateDeclaration ={").append(template);
-            sb.append("}");
-            return sb.toString();
-        }
+    public List<ComponentAttribute> getComponentAttribute() {
+        return componentAttribute;
     }
+
+    public void setComponentAttribute(List<ComponentAttribute> componentAttribute) {
+        this.componentAttribute = componentAttribute;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(" Component Body = { ");
+        if (componentAttribute != null) {
+            for (ComponentAttribute b : componentAttribute) {
+                if (b != null) {
+                    sb.append(b).append(",");
+                }
+            }
+        }
+        sb.append(" } ").append('\n');
+        return sb.toString();
+    }
+}
 
 

@@ -59,8 +59,8 @@ singleExpression:
         literal
         | arrayLiteral
         | objectLiteral
-        |mustacheExpression
-        |returnStatement
+        | mustacheExpression
+        | returnStatement
         | singleExpression Dot singleExpression
         | singleExpression Multiply singleExpression
         | singleExpression Divide singleExpression
@@ -79,10 +79,11 @@ singleExpression:
         | OpenBrace singleExpression (OpenParen CloseParen)?CloseBrace
         | singleExpression MinusMinus
         | This
+        |singleExpressionCss
          ;
 
 singleExpressionCss:
-     Dot Identifier '{' (attributeCss ':' (DecimalLiteral ? Identifier ? StringLiteral?) ';')* '}'
+     Dot Identifier objectLiteral ';'
 ;
 attributeCss:
  Margin
@@ -106,8 +107,8 @@ functionCall
     ;
 
 directive
-    : '*ngIf' Assign singleExpression
-    | '*ngFor' Assign singleExpression
+    : '*ngIf'
+    | '*ngFor'
     ;
 
 
@@ -126,7 +127,15 @@ componentDeclaration
     ;
 
 componentAttributes
-    : '{' selectorDeclaration? ','? standaloneDeclaration? ','? importsDeclaration? ','? templateDeclaration? ','? stylesDeclaration? '}'
+    : '{' (componentAttribute (',' componentAttribute)* ','?)? '}'
+    ;
+componentAttribute
+    : selectorDeclaration
+    | standaloneDeclaration
+    | importsDeclaration
+    | templateDeclaration
+    | stylesDeclaration
+    | singleExpressionCss
     ;
 
 selectorDeclaration
@@ -146,7 +155,7 @@ templateDeclaration
     ;
 
 stylesDeclaration
-    : Styles  Colon arrayCss
+    : Styles  Colon arrayLiteral
     ;
 
 
@@ -170,22 +179,24 @@ htmlElement
     | '<' Identifier (WS? htmlAttribute)* WS? '/' '>'
     ;
 
-htmlContent : (htmlElement | mustacheExpression | singleExpression)* ;
+htmlContent : (htmlElement  |singleExpression)* ;
 
 htmlAttribute
-    : Identifier (Assign htmlAttributeValue)?                  // Standard attributes
+    : Identifier (Assign htmlAttributeValue)?
     | '[' Class Dot Identifier ']' (Assign htmlAttributeValue)?
-    | '(' Identifier ')' (Assign htmlAttributeValue)?          // Angular event bindings
+    | '(' Identifier ')' (Assign htmlAttributeValue)?
     | directive (Assign htmlAttributeValue)?
     | Class (Assign htmlAttributeValue)?
-    | Alt (Assign htmlAttributeValue)?
-    | '[' Src ']' (Assign htmlAttributeValue)?
+    |'['Identifier']' (Assign htmlAttributeValue)?
     ;
 
-mustacheExpression : OPEN_MUSTACHE singleExpression CLOSE_MUSTACHE ;
+mustacheExpression : '{{'  (singleExpression (',' singleExpression)*)?  '}}';
 
-  htmlAttributeValue : StringLiteral
-                     | '{'singleExpression (','  singleExpression)*'}' ;
+  htmlAttributeValue :StringLiteral
+                     |  '{'singleExpression (','  singleExpression)* '}'
+                     | Qut singleExpression (','  singleExpression)* Qut
+
+                     ;
 
 arrayLiteral : '['  (singleExpression (',' singleExpression)*)?  ']'
              ;
@@ -205,3 +216,6 @@ literal
     | StringLiteral
     | DecimalLiteral
     ;
+
+
+

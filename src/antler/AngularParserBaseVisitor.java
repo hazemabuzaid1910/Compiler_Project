@@ -180,6 +180,13 @@ public abstract class AngularParserBaseVisitor<T> extends AbstractParseTreeVisit
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitComponentAttribute(AngularParser.ComponentAttributeContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitSelectorDeclaration(AngularParser.SelectorDeclarationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
@@ -210,9 +217,9 @@ public abstract class AngularParserBaseVisitor<T> extends AbstractParseTreeVisit
 	 */
 	@Override public T visitStylesDeclaration(AngularParser.StylesDeclarationContext ctx) { return visitChildren(ctx); }
 
-	public abstract Export visitExportstatment(AngularParser.ExportStatementContext ctx);
+    public abstract Export visitExportstatment(AngularParser.ExportStatementContext ctx);
 
-	/**
+    /**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling

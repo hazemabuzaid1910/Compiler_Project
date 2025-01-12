@@ -7,29 +7,15 @@ SingleLineComment : '//' ~[\r\n\u2028\u2029]* -> channel(HIDDEN);
 At                         : '@';
 BACKTICK                   : '`';
 Class                      :'class';
-Export  : 'export';
-
+Export                     :'export';
+Let                         :'let';
 Component               : 'Component' ;
 Selector                   : 'selector';
 Standalone                 : 'standalone';
 Imports                    : 'imports';
 Template                   : 'template';
 Styles                     : 'styles';
-Margin                     : 'margin';
-Margin_top                 : 'margin_top';
-Padding                    : 'padding';
-Display                    :'display';
-Color                      : 'color';
-Border_color               : 'border-color';
-Box_shadow                 : 'box-shadow';
-Flex                       : 'flex';
-Background_color           : 'background-color';
-Width                      : 'width';
-Line_height                : 'line-height';
-Flex_direction             : 'flex-direction';
-Flex_wrap                  : 'flex-wrap';
-Gap                        : 'gap';
-Justify_content            : 'justify-content';
+
 OpenBracket                : '[';
 CloseBracket               : ']';
 OpenParen                  : '(';
@@ -84,7 +70,6 @@ BitXorAssign               : '^=';
 BitOrAssign                : '|=';
 NullishCoalescingAssign    : '??=';
 ARROW                      : '=>';
-SinglQuat:'\'';
 ReactCreatElement:'React.createElement';
 Break      : 'break';
 Do         : 'do';
@@ -95,7 +80,6 @@ Else       : 'else';
 ElseIf     : 'else if';
 New        : 'new';
 Var        : 'var';
-Let        : 'let';
 Catch      : 'catch';
 Finally    : 'finally';
 Return     : 'return';
@@ -125,9 +109,8 @@ StringLiteral:
     ('"' DoubleStringCharacter* '"' | '\'' SingleStringCharacter* '\'')
 ;
 /// Future Reserved Words
-Src:'src';
 Enum    : 'enum';
-Alt:'alt';
+
 Extends : 'extends';
 Super   : 'super';
 Const   : 'const';
@@ -251,8 +234,23 @@ NgModule : 'NgModule' ;
 Injectable : 'Injectable' ;
 Pipe : 'Pipe' ;
 
-
+Qut:'"';
 OPEN_MUSTACHE : '{{' ;
 CLOSE_MUSTACHE: '}}' ;
 CLOSE_TAG     : '</' ;
 // Keep other tokens from ReactLexer that are shared
+//Margin                     : 'margin';
+//Margin_top                 : 'margin_top';
+//Padding                    : 'padding';
+//Display                    :'display';
+//Color                      : 'color';
+//Border_color               : 'border-color';
+//Box_shadow                 : 'box-shadow';
+//Flex                       : 'flex';
+//Background_color           : 'background-color';
+//Width                      : 'width';
+//Line_height                : 'line-height';
+//Flex_direction             : 'flex-direction';
+//Flex_wrap                  : 'flex-wrap';
+//Gap                        : 'gap';
+//Justify_content            : 'justify-content';

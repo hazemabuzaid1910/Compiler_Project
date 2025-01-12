@@ -149,6 +149,12 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitComponentAttributes(AngularParser.ComponentAttributesContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link AngularParser#componentAttribute}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitComponentAttribute(AngularParser.ComponentAttributeContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link AngularParser#selectorDeclaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

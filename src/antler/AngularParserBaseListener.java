@@ -293,6 +293,18 @@ public class AngularParserBaseListener implements AngularParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterComponentAttribute(AngularParser.ComponentAttributeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitComponentAttribute(AngularParser.ComponentAttributeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterSelectorDeclaration(AngularParser.SelectorDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}

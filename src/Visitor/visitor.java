@@ -1,9 +1,13 @@
 package Visitor;
 import AST.*;
+import SymbolTable.Row;
+import SymbolTable.SymbolTable;
 import antler.AngularParser;
 import antler.AngularParserBaseVisitor;
 
 public class visitor  extends AngularParserBaseVisitor {
+   SymbolTable symbolTable=new SymbolTable();
+
     @Override
     public Program visitProgram(AngularParser.ProgramContext ctx){
         Program program = new Program();
@@ -14,10 +18,11 @@ public class visitor  extends AngularParserBaseVisitor {
         for (int i = 0; i < ctx.statment().size(); i++) {
             if (ctx.statment(i)!=null)
             {
-                System.out.println(ctx.statment().size());
+
                 program.getSourceElement().add(visitStatment(ctx.statment(i)));
             }
         }
+        this.symbolTable.printyy();
 
         return program;
 
@@ -124,12 +129,36 @@ if(ctx.Colon()!=null){
 
     @Override
     public ComponentAttributes visitComponentAttributes(AngularParser.ComponentAttributesContext ctx) {
-ComponentAttributes componentAttributes=new ComponentAttributes();
-if(ctx.templateDeclaration()!=null){
-    componentAttributes.setTemplate(visitTemplateDeclaration(ctx.templateDeclaration()));
-}
-return componentAttributes;
+   ComponentAttributes componentAttributes=new ComponentAttributes();
+        for (int i = 0; i < ctx.componentAttribute().size(); i++) {
+            if (ctx.componentAttribute(i) != null) {
+                componentAttributes.getComponentAttribute().add(visitComponentAttribute(ctx.componentAttribute(i)));
+            }
+        }
+   return componentAttributes;
     }
+
+    @Override
+    public ComponentAttribute visitComponentAttribute(AngularParser.ComponentAttributeContext ctx) {
+        ComponentAttribute componentAttribute=new ComponentAttribute();
+        if(ctx.templateDeclaration()!=null){
+            componentAttribute.setTemplate(visitTemplateDeclaration(ctx.templateDeclaration()));
+        }
+        if(ctx.selectorDeclaration()!=null){
+            componentAttribute.setSelector(visitSelectorDeclaration(ctx.selectorDeclaration()));
+        }
+        if(ctx.standaloneDeclaration()!=null){
+            componentAttribute.setStandalone(visitStandaloneDeclaration(ctx.standaloneDeclaration()));
+        }
+        if(ctx.importsDeclaration()!=null){
+            componentAttribute.setImports(visitImportsDeclaration(ctx.importsDeclaration()));
+        }
+        if(ctx.stylesDeclaration()!=null){
+            componentAttribute.setStyles(visitStylesDeclaration(ctx.stylesDeclaration()));
+        }
+        return componentAttribute;
+    }
+
     @Override
     public HtmlElementsNode visitHtmlElements(AngularParser.HtmlElementsContext ctx) {
         HtmlElementsNode   htmlElementsNode= new HtmlElementsNode();
@@ -163,6 +192,7 @@ return componentAttributes;
         {
             htmlElementNode.setTagNameClose(ctx.Identifier(1).getText());
         }
+
         return htmlElementNode;
 
     }
@@ -170,24 +200,37 @@ return componentAttributes;
     public HtmlAttributeNode visitHtmlAttribute(AngularParser.HtmlAttributeContext ctx) {
         HtmlAttributeNode htmlAttributeNode = new HtmlAttributeNode();
 
-        if (ctx.Identifier()!=null ) {
+        if (ctx.Identifier() != null) {
             String attributeName = ctx.Identifier().getText();
             htmlAttributeNode.setAttributeName(attributeName);
             boolean attributeNameExists = false;
+            for (Row row : this.symbolTable.getRows()) {
+                if (row.getType().equals("htmlAttributeName") && row.getValue().equals(attributeName)) {
+                    attributeNameExists = true;
+                    break;
+                }
+            }
+            if (!attributeNameExists) {
+                Row row4 = new Row();
+                row4.setType("htmlAttributeName");
+                row4.setValue(attributeName);
+                this.symbolTable.getRows().add(row4);
+            }
         }
-        if (ctx.Class()!=null ) {
-            String attributeName = ctx.Class().getText();
-            htmlAttributeNode.setAttributeName(attributeName);
-            boolean attributeNameExists = false;
-        }
-        if (ctx.Alt()!=null ) {
-            String attributeName = ctx.Alt().getText();
-            htmlAttributeNode.setAttributeName(attributeName);
-            boolean attributeNameExists = false;
-        }
-        if (ctx.htmlAttributeValue()!= null) {
+
+        if (ctx.htmlAttributeValue() != null) {
             htmlAttributeNode.setAttributeValue(visitHtmlAttributeValue(ctx.htmlAttributeValue()));
         }
+        if (ctx.Class() != null) {
+            String attributeName = ctx.Class().getText();
+            htmlAttributeNode.setAttributeName(attributeName);
+        }
+        if (ctx.directive() != null) {
+            String attributeName = ctx.directive().getText();
+            htmlAttributeNode.setAttributeName(attributeName);
+        }
+
+
 
         return htmlAttributeNode;
     }
@@ -205,9 +248,8 @@ return componentAttributes;
             }
         }
         return  htmlContentNode;
-
-
     }
+
     @Override
     public HtmlAttributeValueNode visitHtmlAttributeValue(AngularParser.HtmlAttributeValueContext ctx) {
         HtmlAttributeValueNode htmlAttributeValueNode = new HtmlAttributeValueNode();
@@ -249,6 +291,16 @@ return componentAttributes;
 
             return expression;
         }
+        else if (ctx.mustacheExpression() != null) {
+            expression.setMustache(visitMustacheExpression(ctx.mustacheExpression()));
+
+            return expression;
+        }
+        else if (ctx.singleExpressionCss() != null) {
+            expression.setStyleContent(visitSingleExpressionCss(ctx.singleExpressionCss()));
+
+            return expression;
+        }
         else if (ctx.singleExpression().size() == 2 && ctx.Dot() != null) {
             Expression left = visitSingleExpression(ctx.singleExpression(0));
             expression.setLeft(left);
@@ -270,6 +322,7 @@ return componentAttributes;
             expression.setRight(right);
             return  expression ;
         }
+
         return expression;
     }
     @Override
@@ -320,7 +373,8 @@ return componentAttributes;
             if (ctx.singleExpression(i) != null) {
                 arrayLiteral.getElements().add(visitSingleExpression(ctx.singleExpression(i)));
 
-            }}
+            }
+        }
         return arrayLiteral;
     }
     @Override
@@ -330,7 +384,15 @@ return componentAttributes;
         {
             functionDeclaration.setFunctionExport(ctx.Export().getText());
         }
+        if(ctx.Identifier()!=null)
+        {
+            functionDeclaration.setFunctionName(ctx.Identifier().getText());
+           Row row=new Row();
+            row.setType("FunctionName");
+            row.setValue(functionDeclaration.getFunctionName());
+            this.symbolTable.getRows().add(row);
 
+        }
         if(ctx.Identifier()!=null)
         {
             functionDeclaration.setFunctionName(ctx.Identifier().getText());
@@ -341,7 +403,13 @@ return componentAttributes;
                 functionDeclaration.getParameters().add(visitSingleExpression(ctx.singleExpression(i)));
             }
         }
-
+        if (!ctx.singleExpression().isEmpty())
+        {
+            Row row = new Row();
+            row.setType("functionParameters");
+            row.setValue(functionDeclaration.getParameters().toString());
+            this.symbolTable.getRows().add(row);
+        }
         for (int i = 0; i < ctx.statment().size(); i++) {
             if (ctx.statment(i) != null) {
                 functionDeclaration.getBody().add(visitStatment(ctx.statment(i)));
@@ -386,6 +454,21 @@ return componentAttributes;
         if (ctx.arrayLiteral() != null) {
 
             assignable.setArrayLiteral(visitArrayLiteral(ctx.arrayLiteral()));
+            Row row1 = new Row();
+            row1.setType("NameOfVariable");
+            row1.setValue(assignable.getName());
+            this.symbolTable.getRows().add(row1);
+        } else if (ctx.Identifier() != null) {
+            assignable.setName(ctx.Identifier().getText());
+            Row row1 = new Row();
+            row1.setType("NameOfVar");
+            row1.setValue(assignable.getName());
+            this.symbolTable.getRows().add(row1);
+
+        }
+        if (ctx.arrayLiteral() != null) {
+
+            assignable.setArrayLiteral(visitArrayLiteral(ctx.arrayLiteral()));
 
         } else if (ctx.Identifier() != null) {
             assignable.setName(ctx.Identifier().getText());
@@ -420,11 +503,14 @@ return componentAttributes;
         ClassDeclaration classDeclaration=new ClassDeclaration();
 if(ctx.Identifier()!=null) {
     classDeclaration.setClassName(ctx.Identifier().getText());
+    Row row = new Row();
+    row.setType("ClassName ");
+    row.setValue(classDeclaration.getClassName());
+    this.symbolTable.getRows().add(row);
 }
    if(ctx.classBody()!=null){
        classDeclaration.setClassBody(visitClassBody(ctx.classBody()));
    }
-
         return classDeclaration;
     }
 
@@ -433,7 +519,6 @@ if(ctx.Identifier()!=null) {
         ClassBody classBody=new ClassBody();
         for (int i = 0; i < ctx.singleExpression().size(); i++) {
             if (ctx.singleExpression(i) != null) {
-
                 classBody.getExpressions().add(visitSingleExpression(ctx.singleExpression(i)));
             }
         }
@@ -446,5 +531,90 @@ if(ctx.Identifier()!=null) {
         return classBody;
     }
 
+    @Override
+    public MustachExpression visitMustacheExpression(AngularParser.MustacheExpressionContext ctx) {
+        MustachExpression mustachExpression=new MustachExpression();
+        for (int i = 0; i < ctx.singleExpression().size(); i++) {
+            if (ctx.singleExpression(i) != null) {
 
+                mustachExpression.getExpContent().add(visitSingleExpression(ctx.singleExpression(i)));
+            }
+        }
+        return mustachExpression;
+    }
+
+    @Override
+    public Selector visitSelectorDeclaration(AngularParser.SelectorDeclarationContext ctx) {
+        Selector selector=new Selector();
+        if(ctx.Colon()!=null){
+            selector.setColon(ctx.Colon().getText());
+        }
+        if(ctx.Selector()!=null){
+            selector.setSelector(ctx.Selector().getText());
+        }
+        if(ctx.StringLiteral()!=null){
+            selector.setApp_root(ctx.StringLiteral().getText());
+        }
+        return selector;
+    }
+
+    @Override
+    public Standalone visitStandaloneDeclaration(AngularParser.StandaloneDeclarationContext ctx) {
+  Standalone standalone=new Standalone();
+  if(ctx.Standalone()!=null){
+      standalone.setStandalone(ctx.Standalone().getText());
+  }
+        if(ctx.Colon()!=null){
+            standalone.setColon(ctx.Colon().getText());
+        }
+        if(ctx.BooleanLiteral()!=null){
+            String booleanText = ctx.BooleanLiteral().getText();
+            boolean booleanValue = Boolean.parseBoolean(booleanText);
+            standalone.setBooleanvalue(booleanValue);
+        }
+  return standalone;
+    }
+
+    @Override
+    public Imports visitImportsDeclaration(AngularParser.ImportsDeclarationContext ctx) {
+        Imports imports=new Imports();
+        if(ctx.Colon()!=null){
+            imports.setColon(ctx.Colon().getText());
+        }
+        if(ctx.Imports()!=null){
+            imports.setImports(ctx.Imports().getText());
+        }
+        if(ctx.arrayLiteral()!=null){
+            imports.setArrayLiteral(visitArrayLiteral(ctx.arrayLiteral()));
+        }
+        return imports;
+    }
+
+    @Override
+    public Styles visitStylesDeclaration(AngularParser.StylesDeclarationContext ctx) {
+        Styles styles=new Styles();
+        if(ctx.Styles()!=null){
+            styles.setStyle(ctx.Styles().getText());
+        }
+        if(ctx.Colon()!=null){
+            styles.setColon(ctx.Colon().getText());
+        }
+        if(ctx.arrayLiteral()!=null){
+            styles.setArrayLiteral(visitArrayLiteral(ctx.arrayLiteral()));
+        }
+        return styles;
+    }
+
+    @Override
+    public StyleContent visitSingleExpressionCss(AngularParser.SingleExpressionCssContext ctx) {
+      StyleContent styleContent=new StyleContent();
+
+        if(ctx.Identifier()!=null){
+            styleContent.setClassName(ctx.Identifier().getText());
+        }
+        if(ctx.objectLiteral()!=null){
+            styleContent.setObjectLiteral(visitObjectLiteral(ctx.objectLiteral()));
+        }
+      return styleContent;
+    }
 }

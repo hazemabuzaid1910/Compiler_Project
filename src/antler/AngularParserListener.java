@@ -238,6 +238,16 @@ public interface AngularParserListener extends ParseTreeListener {
 	 */
 	void exitComponentAttributes(AngularParser.ComponentAttributesContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link AngularParser#componentAttribute}.
+	 * @param ctx the parse tree
+	 */
+	void enterComponentAttribute(AngularParser.ComponentAttributeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngularParser#componentAttribute}.
+	 * @param ctx the parse tree
+	 */
+	void exitComponentAttribute(AngularParser.ComponentAttributeContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AngularParser#selectorDeclaration}.
 	 * @param ctx the parse tree
 	 */
