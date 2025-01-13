@@ -83,7 +83,7 @@ singleExpression:
          ;
 
 singleExpressionCss:
-     Dot Identifier objectLiteral
+     Dot ?Identifier objectLiteral
 ;
 
 functionCall
@@ -180,7 +180,7 @@ mustacheExpression : '{{'  (singleExpression (',' singleExpression)*)?  '}}';
 
                      ;
 
-arrayLiteral : '['  (singleExpression (',' singleExpression)*)?  ']'
+arrayLiteral : '[''`'?  (singleExpression (',' singleExpression)*)?  '`'?']'
              ;
 arrayCss : '['  '`' (singleExpressionCss)*? '`' ']'
              ;
@@ -197,6 +197,7 @@ literal
     | BooleanLiteral
     | StringLiteral
     | DecimalLiteral
+    |HexColor
     ;
 
 

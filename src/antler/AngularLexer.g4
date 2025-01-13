@@ -238,6 +238,7 @@ Qut:'"';
 OPEN_MUSTACHE : '{{' ;
 CLOSE_MUSTACHE: '}}' ;
 CLOSE_TAG     : '</' ;
+HexColor: '#' [0-9a-fA-F]+;
 // Keep other tokens from ReactLexer that are shared
 //Margin                     : 'margin';
 //Margin_top                 : 'margin_top';

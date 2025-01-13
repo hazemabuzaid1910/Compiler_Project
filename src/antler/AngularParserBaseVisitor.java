@@ -1,6 +1,5 @@
 // Generated from C:/Users/hazem/OneDrive/Desktop/4/compiler_test/CompilerProject/src/antler/AngularParser.g4 by ANTLR 4.13.2
 package antler;
-import AST.Export;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
@@ -12,7 +11,7 @@ import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
  * operations with no return type.
  */
 @SuppressWarnings("CheckReturnValue")
-public abstract class AngularParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements AngularParserVisitor<T> {
+public class AngularParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements AngularParserVisitor<T> {
 	/**
 	 * {@inheritDoc}
 	 *
@@ -209,10 +208,7 @@ public abstract class AngularParserBaseVisitor<T> extends AbstractParseTreeVisit
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitStylesDeclaration(AngularParser.StylesDeclarationContext ctx) { return visitChildren(ctx); }
-
-    public abstract Export visitExportstatment(AngularParser.ExportStatementContext ctx);
-
-    /**
+	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling

@@ -417,7 +417,7 @@ if(ctx.Colon()!=null){
         }
         if(ctx.exportStatement()!=null)
         {
-            functionDeclaration.setEx(visitExportstatment(ctx.exportStatement()));
+            functionDeclaration.setEx(visitExportStatement(ctx.exportStatement()));
         }
         return functionDeclaration;
 
@@ -454,10 +454,7 @@ if(ctx.Colon()!=null){
         if (ctx.arrayLiteral() != null) {
 
             assignable.setArrayLiteral(visitArrayLiteral(ctx.arrayLiteral()));
-            Row row1 = new Row();
-            row1.setType("NameOfVariable");
-            row1.setValue(assignable.getName());
-            this.symbolTable.getRows().add(row1);
+
         } else if (ctx.Identifier() != null) {
             assignable.setName(ctx.Identifier().getText());
             Row row1 = new Row();
@@ -490,7 +487,7 @@ if(ctx.Colon()!=null){
 
     }
     @Override
-    public Export visitExportstatment(AngularParser.ExportStatementContext ctx) {
+    public Export visitExportStatement(AngularParser.ExportStatementContext ctx) {
         Export export = new Export();
         if (ctx.Identifier() != null) {
             export.setIdentifier(ctx.Identifier().getText());
