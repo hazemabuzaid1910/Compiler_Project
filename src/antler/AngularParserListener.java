@@ -168,6 +168,16 @@ public interface AngularParserListener extends ParseTreeListener {
 	 */
 	void exitSingleExpressionCss(AngularParser.SingleExpressionCssContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link AngularParser#forstatment}.
+	 * @param ctx the parse tree
+	 */
+	void enterForstatment(AngularParser.ForstatmentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngularParser#forstatment}.
+	 * @param ctx the parse tree
+	 */
+	void exitForstatment(AngularParser.ForstatmentContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AngularParser#functionCall}.
 	 * @param ctx the parse tree
 	 */
@@ -387,6 +397,16 @@ public interface AngularParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitArrayLiteral(AngularParser.ArrayLiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AngularParser#indexarray}.
+	 * @param ctx the parse tree
+	 */
+	void enterIndexarray(AngularParser.IndexarrayContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngularParser#indexarray}.
+	 * @param ctx the parse tree
+	 */
+	void exitIndexarray(AngularParser.IndexarrayContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AngularParser#arrayCss}.
 	 * @param ctx the parse tree

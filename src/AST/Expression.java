@@ -19,6 +19,25 @@ public class  Expression {
     Expression cond ;
     MustachExpression mustache;
     StyleContent styleContent;
+    PlusPlusExpression plusPlusExpression;
+    FunctionDeclaration functionDeclaration;
+   IndexArray indexArray;
+
+    public IndexArray getIndexArray() {
+        return indexArray;
+    }
+
+    public void setIndexArray(IndexArray indexArray) {
+        this.indexArray = indexArray;
+    }
+
+    public FunctionDeclaration getFunctionDeclaration() {
+        return functionDeclaration;
+    }
+
+    public void setFunctionDeclaration(FunctionDeclaration functionDeclaration) {
+        this.functionDeclaration = functionDeclaration;
+    }
 
     public StyleContent getStyleContent() {
         return styleContent;
@@ -132,8 +151,13 @@ public class  Expression {
         return returnStatement;
     }
 
+    public PlusPlusExpression getPlusPlusExpression() {
+        return plusPlusExpression;
+    }
 
-
+    public void setPlusPlusExpression(PlusPlusExpression plusPlusExpression) {
+        this.plusPlusExpression = plusPlusExpression;
+    }
 
     public AnoymousFunction getAnoymousFunction() {
         return anoymousFunction;
@@ -230,6 +254,17 @@ public class  Expression {
         if (styleContent != null) {
 
             sb.append(styleContent);
+        }
+
+        if (plusPlusExpression != null) {
+
+            sb.append(plusPlusExpression);
+        }
+        if (functionDeclaration != null) {
+            sb.append(" functionDeclaration=").append(functionDeclaration).append('\n');
+        }
+        if (indexArray != null) {
+            sb.append(indexArray).append('\n');
         }
         return sb.toString();
     }

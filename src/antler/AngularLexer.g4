@@ -15,14 +15,13 @@ Standalone                 : 'standalone';
 Imports                    : 'imports';
 Template                   : 'template';
 Styles                     : 'styles';
-
+SemiColon                  : ';';
 OpenBracket                : '[';
 CloseBracket               : ']';
 OpenParen                  : '(';
 CloseParen                 : ')';
 OpenBrace                  : '{';
 CloseBrace                 : '}';
-SemiColon                  : ';';
 Comma                      : ',';
 Assign                     : '=';
 QuestionMark               : '?';
@@ -124,9 +123,7 @@ Package      : 'package'   ;
 Protected    : 'protected'  ;
 Static       : 'static'     ;
 Map:'map';
-UseRef : 'useRef' ;
-UseState : 'useState' ;
-UseEffect: 'useEffect' ;
+
 
 DecimalLiteral:
     DecimalIntegerLiteral '.' [0-9] [0-9_]* ExponentPart?

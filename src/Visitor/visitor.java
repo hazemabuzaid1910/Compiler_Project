@@ -275,10 +275,15 @@ if(ctx.Colon()!=null){
             expression.setLiteralExpression(visitLiteral(ctx.literal()));
             return expression;
         }
+        else if (ctx.indexarray() != null) {
+            expression.setIndexArray( visitIndexarray(ctx.indexarray()));
+            return expression;
+        }
        else if (ctx.arrayLiteral() != null) {
             expression.setArrayLiteral( visitArrayLiteral(ctx.arrayLiteral()));
             return expression;
-        } else if (ctx.objectLiteral() != null) {
+        }
+       else if (ctx.objectLiteral() != null) {
             expression .setObjectLiteral(visitObjectLiteral(ctx.objectLiteral()));
             return expression ;
         }
@@ -308,6 +313,7 @@ if(ctx.Colon()!=null){
             expression.setRight(right);
             return  expression ;
         }
+
         else if (ctx.singleExpression().size() == 2 && ctx.Assign() != null) {
             Expression left = visitSingleExpression(ctx.singleExpression(0));
             expression.setLeft(left);
@@ -514,17 +520,13 @@ if(ctx.Identifier()!=null) {
     @Override
     public ClassBody visitClassBody(AngularParser.ClassBodyContext ctx) {
         ClassBody classBody=new ClassBody();
-        for (int i = 0; i < ctx.singleExpression().size(); i++) {
-            if (ctx.singleExpression(i) != null) {
-                classBody.getExpressions().add(visitSingleExpression(ctx.singleExpression(i)));
-            }
-        }
-        for (int i = 0; i < ctx.statment().size(); i++) {
-            if (ctx.statment(i) != null) {
 
-                classBody.getStatments().add(visitStatment(ctx.statment(i)));
-            }
-        }
+for (int i=0;i<ctx.singleExpression().size();i++) {
+    if (ctx.singleExpression(i) != null) {
+        classBody.getExpressions().add(visitSingleExpression(ctx.singleExpression(i)));
+    }
+}
+
         return classBody;
     }
 
@@ -607,11 +609,38 @@ if(ctx.Identifier()!=null) {
       StyleContent styleContent=new StyleContent();
 
         if(ctx.Identifier()!=null){
+
             styleContent.setClassName(ctx.Identifier().getText());
         }
         if(ctx.objectLiteral()!=null){
             styleContent.setObjectLiteral(visitObjectLiteral(ctx.objectLiteral()));
         }
       return styleContent;
+    }
+    @Override
+    public forStatement visitForstatment(AngularParser.ForstatmentContext ctx) {
+        forStatement fs = new forStatement();
+        if (ctx.variableStatement() != null) {
+            fs.setVariableStatement(visitVariableStatement(ctx.variableStatement()));
+        }
+        if (ctx.singleExpression(1) != null) {
+            fs.setIncrement(visitSingleExpression(ctx.singleExpression(1)));
+        }
+        if (ctx.singleExpression(2) != null) {
+            fs.setBody(visitSingleExpression(ctx.singleExpression(2)));
+        }
+        return fs;
+    }
+
+    @Override
+    public IndexArray visitIndexarray(AngularParser.IndexarrayContext ctx) {
+        IndexArray indexArray=new IndexArray();
+       if(ctx.Identifier()!=null){
+           indexArray.setIdentifier(ctx.Identifier().getText());
+       }
+        if(ctx.DecimalLiteral()!=null){
+            indexArray.setIndex(ctx.DecimalLiteral().getChildCount());
+        }
+        return  indexArray;
     }
 }

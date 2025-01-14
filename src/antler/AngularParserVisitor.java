@@ -107,6 +107,12 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSingleExpressionCss(AngularParser.SingleExpressionCssContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link AngularParser#forstatment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitForstatment(AngularParser.ForstatmentContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link AngularParser#functionCall}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -238,6 +244,12 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitArrayLiteral(AngularParser.ArrayLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngularParser#indexarray}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIndexarray(AngularParser.IndexarrayContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AngularParser#arrayCss}.
 	 * @param ctx the parse tree

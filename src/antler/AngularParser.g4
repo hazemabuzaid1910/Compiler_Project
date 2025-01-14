@@ -20,12 +20,14 @@ moduleItems
 
 
 statment
-    : variableStatement
-    | functionDeclaration
+    :
+      functionDeclaration
     | componentDeclaration
     | classDeclaration
     | expressionStatement
+    | variableStatement
     ;
+
 
 expressionStatement : singleExpression (',' singleExpression)* eos ;
 
@@ -56,8 +58,10 @@ variableDeclaration
 assignable : arrayLiteral | Identifier | ObjectLiteral ;
 
 singleExpression:
-        literal
+          literal
+        | indexarray
         | arrayLiteral
+        | forstatment
         | objectLiteral
         | mustacheExpression
         | returnStatement
@@ -79,12 +83,13 @@ singleExpression:
         | OpenBrace singleExpression (OpenParen CloseParen)?CloseBrace
         | singleExpression MinusMinus
         | This
-        |singleExpressionCss
-         ;
+        | singleExpressionCss
+        ;
 
-singleExpressionCss:
-     Dot ?Identifier objectLiteral
-;
+singleExpressionCss
+    : Dot? Identifier objectLiteral
+    ;
+ forstatment : For '(' variableStatement  Identifier (Assign|MoreThan|LessThan ) singleExpression ';'singleExpression ')' '{'singleExpression eos?'}' ;
 
 functionCall
     : Identifier OpenParen (singleExpression (Comma singleExpression)*)? CloseParen
@@ -94,7 +99,6 @@ directive
     : '*ngIf'
     | '*ngFor'
     ;
-
 
 ifStatement
     : If OpenParen singleExpression CloseParen statementBlock (Else statementBlock)?
@@ -147,7 +151,7 @@ classDeclaration
 
 
 classBody
-    :'{' (singleExpression|statment )* '}'
+    :'{' singleExpression* |functionDeclaration*  '}'
     ;
 
 templateStatement
@@ -157,8 +161,8 @@ templateStatement
 
 htmlElements : htmlElement+ ;
 htmlElement
-    : '<' Identifier (WS? htmlAttribute)* WS? '>' htmlContent? CLOSE_TAG Identifier '>'
-    | '<' Identifier (WS? htmlAttribute)* WS? '/' '>'
+    : '<' Identifier ( htmlAttribute)*  '>' htmlContent? CLOSE_TAG Identifier '>'
+    | '<' Identifier ( htmlAttribute)*  '/' '>'
     ;
 
 htmlContent : (htmlElement  |singleExpression)* ;
@@ -176,12 +180,13 @@ mustacheExpression : '{{'  (singleExpression (',' singleExpression)*)?  '}}';
 
   htmlAttributeValue :StringLiteral
                      |  '{'singleExpression (','  singleExpression)* '}'
-                     | Qut singleExpression (','  singleExpression)* Qut
 
                      ;
 
 arrayLiteral : '[''`'?  (singleExpression (',' singleExpression)*)?  '`'?']'
              ;
+indexarray : Identifier '['DecimalLiteral']'
+           ;
 arrayCss : '['  '`' (singleExpressionCss)*? '`' ']'
              ;
 objectLiteral
@@ -197,7 +202,7 @@ literal
     | BooleanLiteral
     | StringLiteral
     | DecimalLiteral
-    |HexColor
+    | HexColor
     ;
 
 
